@@ -230,7 +230,6 @@ while True:
                 user_attack = user.link_karma
 
                 # Determine who attacks first
-                # Determine who attacks first
                 surprise = random.randint(1, 2)
                 if surprise == 1:
                     print(f'You have surprised u/{bossfight}!')
