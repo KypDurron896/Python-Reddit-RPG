@@ -74,6 +74,37 @@ otherreddit_list = [
     'Marvel', 'MetalForTheMasses', 'Art', 'wholesomememes'
 ]
 
+def enemy_attack_turn(enemy_attack, bossfight, user_health):
+    try:
+        boss_weapon = sword
+        hityes = random.randint(1, 2)
+        if hityes == 1:
+            print(f'u/{bossfight} swings his {boss_weapon.name} and misses!')
+        else:
+            damage = enemy_attack
+            user_health -= damage
+            print(f'u/{bossfight} lands a hit on you with his {boss_weapon.name} and does {damage} damage!')
+        return user_health
+    except Exception as e:
+        print(f"Error during enemy attack: {e}")
+        return user_health
+
+def user_attack_turn(user_attack, username, bossfight, enemy_health):
+    try:
+        user_weapon = sword
+        hityes = random.randint(1, 2)
+        if hityes == 1:
+            print(f'u/{username} swings his {user_weapon.name} at u/{bossfight} and misses!')
+        else:
+            damage = user_attack
+            enemy_health -= damage
+            print(f'u/{username} swings his {user_weapon.name} at u/{bossfight} and deals {damage} damage!')
+        return enemy_health
+    except Exception as e:
+        print(f"Error during user attack: {e}")
+        return enemy_health
+
+    
 # Ask for Reddit username
 print('+-----------------------------+')
 print('|     Realms of Reddit        |')
@@ -130,7 +161,7 @@ def sub_info():
     for r in destinations:
         print(f' - r/{r}')
     print('+------------------------------+')
-    print('Check readme.txt to view all the available commands.')
+    print('Check commands.txt to view all the available commands.')
 
     # Handle command input
 sub_info()
@@ -189,6 +220,7 @@ while True:
                 inventory.equip_item(sword)
                 inventory.equip_item(helmet)
                 inventory.equip_item(amulet)
+                enemy = reddit.redditor(bossfight)
                 enemy_health = enemy.comment_karma
                 enemy_attack = enemy.link_karma
                 print(f'\nYou ready yourself to attack u/{bossfight}...')
@@ -198,53 +230,31 @@ while True:
                 user_attack = user.link_karma
 
                 # Determine who attacks first
-                suprise = random.randint(1, 2)
-                if suprise == 1:
+                # Determine who attacks first
+                surprise = random.randint(1, 2)
+                if surprise == 1:
                     print(f'You have surprised u/{bossfight}!')
-                    user_attack_turn()
+                    enemy_health = user_attack_turn(user_attack, username, bossfight, enemy_health)
                 else:
                     print(f'You have been ambushed by u/{bossfight}!')
-                    enemy_attack_turn()
+                    user_health = enemy_attack_turn(enemy_attack, bossfight, user_health)
+
+# Now continue with the fight loop
+                while user_health > 0 and enemy_health > 0:
+                    enemy_health = user_attack_turn(user_attack, username, bossfight, enemy_health)
+                    if enemy_health <= 0:
+                        print(f"You defeated u/{bossfight}!")
+                        break
+        
+                    user_health = enemy_attack_turn(enemy_attack, bossfight, user_health)
+                    if user_health <= 0:
+                        print(f"You were defeated by u/{bossfight}...")
+                        break
+
             else:
                 print("Invalid choice. Choose a number from 1 to 5.")
         except ValueError:
             print("Please enter a valid number.")
 
     else:
-        print("Unknown command. Check the Readme file to view commands.")
-
-def enemy_attack_turn():
-    try:
-        boss_weapon = sword
-        enemy = reddit.redditor(bossfight)
-        hityes = random.randint(1, 2)
-        if hityes == 1:
-            print(f'u/{bossfight} swings his {boss_weapon} and misses!')
-        else:
-            damage = enemy_attack
-            user_health -= damage
-            print(f'u/{bossfight} lands a hit on you with his {boss_weapon} and does {damage} damage!')
-        
-        return user_health  
-    except Exception as e:
-        print(f"Error during enemy attack: {e}")
-        return user_health
-
-def user_attack_turn():
-    try:
-        user_weapon = sword
-        enemy = reddit.redditor(bossfight)
-
-
-        hityes = random.randint(1, 2)
-        if hityes == 1:
-            print(f'u/{username} swings his {user_weapon} at u/{bossfight} and misses!')
-        else:
-            damage = user_attack
-            user_health -= damage
-            print(f'u/{username} swings his {user_weapon} at u/{bossfight} and deals {damage} damage!')
-        
-        return user_health  
-    except Exception as e:
-        print(f"Error during enemy attack: {e}")
-        return user_health
+        print("Unknown command. Check the commands file to view commands.")
