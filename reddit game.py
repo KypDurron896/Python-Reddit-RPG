@@ -45,6 +45,18 @@ class PlayerInventory:
                 print(f" - {slot.capitalize()}: Empty")
 
 # Example usage:
+Lukes_Lightsaber = Item("Lukes Lightsaber", "weapon", "Luke Skywalkers lightsaber")
+Anduril = Item("Anduril", "weapon", "Aragorns sword.")
+Mjolnir = Item("Mjolnir", "weapon", "Thors magical hammer.")
+Indys_Whip = Item("Indys Whip", "weapon", "Indiana Jones bulhide whip.")
+Captain_Americas_Shield = Item("Captain Americas Shield", "armor", "Caps vibranium shield.")
+Holy_Hand_Grenade_of_Antioch = Item("Holy Hand Grenade of Antioch", "special", "And Saint Attila raised the hand grenade up on high, saying, O Lord, bless this thy hand grenade.")
+Phaser = Item("Phaser", "weapon", "A standard Federation hand phaser.")
+Chainsaw = Item("Chainsaw", "weapon", "VROOM VROOOOOOOOOM!")
+Kring = Item("Kring", "weapon", "A talking sword?")
+Super_Shotgun = Item("Super Shotgun", "weapon", "Doomguys super shotgun.")
+Bolter = Item("Bolter", "weapon", "Purge the xenos!")
+Excalibur = Item("Excalibur", "weapon", "The legendary sword of King Arthur")
 sword = Item("Sword", "weapon", "A basic sword.")
 helmet = Item("Helmet", "armor", "Protects your head.")
 amulet = Item("Amulet of Strength", "special", "Increases strength.")
@@ -74,6 +86,10 @@ otherreddit_list = [
     'Marvel', 'MetalForTheMasses', 'Art', 'wholesomememes'
 ]
 
+loot_list = [
+    'Lukes Lightsaber', 'Anduril', '', 'Mjolnir', 'Captain Americas Shield', 'Indys Whip',
+    'Holy Hand Grenade of Antioch', 'Phaser', 'Chainsaw', 'Super Shotgun', 'Bolter', 'Excalibur'
+]
 def enemy_attack_turn(enemy_attack, bossfight, user_health):
     try:
         boss_weapon = sword
@@ -129,6 +145,12 @@ try:
 except Exception as e:
     print(f"Error: {e}")
 
+# Accumulator for total comment upvotes
+redditor = reddit.redditor(username)
+total_upvotes = 0
+comment_limit = 50 
+for comment in redditor.comments.new(limit=comment_limit):
+    total_upvotes += comment.score
 # Game state
 current_sub = reddit.subreddit(random.choice(subreddit_list))
 bots = random.randint(1, 50)
@@ -188,6 +210,17 @@ while True:
 
     elif command == 'inventory':
         inventory.show_equipment()
+    
+    elif command == 'farm':
+        rand_farm = random.randint(1, 300)
+        success_threshold = 150  
+        rand_farm += total_upvotes // 5  
+
+        if rand_farm >= success_threshold:
+            random_loot = random.choice(loot_list)
+            print(f'You have discovered {random_loot}!')
+        else:
+            print("You didn't find anything this time.")
 
     elif command == 'quit':
         print(f"Your spirit fades out of r/{current_sub.display_name}... ")
