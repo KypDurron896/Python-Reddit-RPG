@@ -47,12 +47,6 @@ class PlayerInventory:
 sword = Item("Sword", "weapon", "A basic sword.")
 helmet = Item("Helmet", "armor", "Protects your head.")
 amulet = Item("Amulet of Strength", "special", "Increases strength.")
-
-inventory = PlayerInventory()
-inventory.equip_item(sword)
-inventory.equip_item(helmet)
-inventory.equip_item(amulet)
-
 # Reddit app credentials
 client_id = 'GOg6wpnbB4QkTBeiIXYcSQ'
 client_secret = 'KTnvLRCZ28NzkYwn0YzZBmapZEBmjg'
@@ -120,8 +114,8 @@ def sub_info():
         print("Couldn't load basement dwellers.")
 #displays info
     print(f'\n+--- r/{current_sub.display_name} ---+')
-    print(f'There are {len(karma_bosses)} basement dwellers in r/{current_sub.display_name}')
-    print(f'There are {bots} bots lurking here...')
+    print(f'There are {len(karma_bosses)} basement dwellers lurking in r/{current_sub.display_name}')
+    print(f'There are {bots} comment farms here...')
 
     # Choose destinations and display them
     destinations = random.sample(otherreddit_list, 5)
@@ -158,7 +152,7 @@ while True:
         inventory.show_equipment()
 
     elif command == 'quit':
-        print(f"Your spirit fades out of r/{current_sub.display_name} ")
+        print(f"Your spirit fades out of r/{current_sub.display_name}... ")
         break
 #shows bosses
     elif command == 'show boss':
@@ -172,8 +166,59 @@ while True:
                 print(f" - u/{boss} | Karma: [unavailable]")
         input("\nPress Enter to continue...")
         sub_info()
+   
+    elif command == 'show boss':
+        print("\nBasement dwellers in this subreddit:")
+        for boss in karma_bosses:
+            try:
+                redditor = reddit.redditor(boss)
+                total_karma = redditor.link_karma + redditor.comment_karma
+                print(f" - u/{boss} | Total Karma: {total_karma}")
+            except Exception:
+                print(f" - u/{boss} | Karma: [unavailable]")
+        input("\nPress Enter to continue...")
+        sub_info()
+
+    elif command == 'fight boss':
+        print("\nWhich basement dweller do you want to engage in mortal combat with?")
+        for i, r in enumerate(karma_bosses, 1):
+            print(f"{i}. u/{r}")
+
+        try:
+            choice = int(input("Choose 1–5: "))
+            if 1 <= choice <= 5:
+                bossfight = karma_bosses[choice - 1]
+
+                # Equip items
+                inventory = PlayerInventory()
+                inventory.equip_item(sword)
+                inventory.equip_item(helmet)
+                inventory.equip_item(amulet)
+
+                print(f'\nYou ready yourself to attack u/{bossfight}...')
+
+                # Assign user karma values to stats
+                user_health = user.comment_karma
+                user_attack = user.link_karma
+
+                # Determine who attacks first
+                suprise = random.randint(1, 2)
+                if suprise == 1:
+                    print(f'You have surprised u/{bossfight}!')
+                    user_attack_turn()
+                else:
+                    print(f'You have been ambushed by u/{bossfight}!')
+                    enemy_attack_turn()
+            else:
+                print("Invalid choice. Choose a number from 1 to 5.")
+        except ValueError:
+            print("Please enter a valid number.")
+
     else:
         print("Unknown command. Check the Readme file to view commands.")
-
+    
+def enemy_attack_turn()       
+    
+    
 
 
