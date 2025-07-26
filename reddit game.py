@@ -1,3 +1,4 @@
+# imports praw api 
 import praw
 import random
 #player inventory setup
@@ -83,11 +84,17 @@ username = input(':reddit username: u/')
 # Get and show karma stats
 try:
     user = reddit.redditor(username)
+    inventory = PlayerInventory()
+    inventory.equip_item(sword)
+    inventory.equip_item(helmet)
+    inventory.equip_item(amulet)
     print('+---------------------------------------+')
     print(f' Username:       {user.name}')
     print(f' Post Karma:     {user.link_karma}')
     print(f' Comment Karma:  {user.comment_karma}')
     print('+---------------------------------------+')
+    user_health = user.comment_karma
+    user_attack = user.link_karma
 except Exception as e:
     print(f"Error: {e}")
 
@@ -166,18 +173,6 @@ while True:
                 print(f" - u/{boss} | Karma: [unavailable]")
         input("\nPress Enter to continue...")
         sub_info()
-   
-    elif command == 'show boss':
-        print("\nBasement dwellers in this subreddit:")
-        for boss in karma_bosses:
-            try:
-                redditor = reddit.redditor(boss)
-                total_karma = redditor.link_karma + redditor.comment_karma
-                print(f" - u/{boss} | Total Karma: {total_karma}")
-            except Exception:
-                print(f" - u/{boss} | Karma: [unavailable]")
-        input("\nPress Enter to continue...")
-        sub_info()
 
     elif command == 'fight boss':
         print("\nWhich basement dweller do you want to engage in mortal combat with?")
@@ -194,7 +189,8 @@ while True:
                 inventory.equip_item(sword)
                 inventory.equip_item(helmet)
                 inventory.equip_item(amulet)
-
+                enemy_health = enemy.comment_karma
+                enemy_attack = enemy.link_karma
                 print(f'\nYou ready yourself to attack u/{bossfight}...')
 
                 # Assign user karma values to stats
@@ -216,9 +212,39 @@ while True:
 
     else:
         print("Unknown command. Check the Readme file to view commands.")
-    
-def enemy_attack_turn()       
-    
-    
+
+def enemy_attack_turn():
+    try:
+        boss_weapon = sword
+        enemy = reddit.redditor(bossfight)
+        hityes = random.randint(1, 2)
+        if hityes == 1:
+            print(f'u/{bossfight} swings his {boss_weapon} and misses!')
+        else:
+            damage = enemy_attack
+            user_health -= damage
+            print(f'u/{bossfight} lands a hit on you with his {boss_weapon} and does {damage} damage!')
+        
+        return user_health  
+    except Exception as e:
+        print(f"Error during enemy attack: {e}")
+        return user_health
+
+def user_attack_turn():
+    try:
+        user_weapon = sword
+        enemy = reddit.redditor(bossfight)
 
 
+        hityes = random.randint(1, 2)
+        if hityes == 1:
+            print(f'u/{username} swings his {user_weapon} at u/{bossfight} and misses!')
+        else:
+            damage = user_attack
+            user_health -= damage
+            print(f'u/{username} swings his {user_weapon} at u/{bossfight} and deals {damage} damage!')
+        
+        return user_health  
+    except Exception as e:
+        print(f"Error during enemy attack: {e}")
+        return user_health
