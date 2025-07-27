@@ -3,7 +3,7 @@ A simple text adventure game built in Python that uses the praw api to retrieve 
 # Features
 - Combat system vs other reddit users (still in progress).
 - The ability to connect your reddit account to translate your karma into in-game stats.
-- Travel between subreddits in-game (still in progress)
+- Travel between subreddits in-game.
 - Comment farms, these use your reddit comment stats (upvotes, views, etc.) to allow you to unlock weapons and armor.
 # Requirements
 - Python 3.9+
