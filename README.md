@@ -7,8 +7,8 @@ A simple text adventure game built in Python that uses the praw api to retrieve 
 - Comment farms, these use your reddit comment stats (upvotes, views, etc.) to allow you to unlock weapons and armor.
 # Requirements
 - Python 3.9+
-- import the Praw api and random
+- Import the Praw api and random
 # Running
 - Check the commands.txt for how to play.
-- run "hackathon reddit game.py"
+- Run "hackathon reddit game.py"
 
