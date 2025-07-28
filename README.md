@@ -1,4 +1,5 @@
 # Python-Reddit-RPG
+Social Link to Reddit: https://www.reddit.com/user/Consistent_Pirate168/comments/1mbki0m/python_text_rpg/
 A simple text adventure game built in Python that uses the praw api to retrieve data from Reddit. I cobbled this project together for the https://boot.dev 2025 Hackathon, so it is very incomplete at the moment.
 # Features
 - Combat system vs other reddit users.
