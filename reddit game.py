@@ -168,8 +168,8 @@ while True:
         inventory.show_equipment()
 
     elif command == 'farm':
-        rand_farm = random.randint(1, 300) + total_upvotes // 5
-        if rand_farm >= 150:
+        rand_farm = random.randint(1, 500) + total_upvotes // 5
+        if rand_farm >= 250:
             loot = random.choice(loot_list)
             print(f'You have discovered {loot}!')
         else:
@@ -219,7 +219,8 @@ while True:
                 elif enemy_health <= 0:
                     print(f"You defeated u/{bossfight}!")
                     reward = random.choice(loot_list)
-                    print(f"You looted: {reward}!")
+                    loot = random.choice(loot_list)
+                    print(f"You looted: {loot}!")
             else:
                 print("Invalid choice.")
         except ValueError:
