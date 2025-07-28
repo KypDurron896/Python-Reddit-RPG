@@ -1,3 +1,11 @@
+Run "hackathon reddit game.py"
+Input your reddit user name into the prompt.
+The game mechanics should be familiar to anybody who has played a text adventure game.
+For those who haven't played any text rpgs, you simply input a command into the prompt, 
+(attack, look, etc.) the game will output the result and give you more options.
+The available commands are listed below.
+
+
 Commands:
 "travel" : allows the user to choose which nearby subreddits to travel to.
 "farm" : allows the user to farm for equipment and loot.
