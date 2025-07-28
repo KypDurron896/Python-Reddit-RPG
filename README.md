@@ -5,6 +5,7 @@ A simple text adventure game built in Python that uses the praw api to retrieve 
 - The ability to connect your reddit account to translate your karma into in-game stats.
 - Travel between subreddits in-game.
 - Comment farms, these use your reddit comment stats (upvotes, views, etc.) to allow you to unlock weapons and armor.
+- An inventory system for your weapons! (still in progress)
 # Requirements
 - Python 3.9+
 - Import the Praw api and random
